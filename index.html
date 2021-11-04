@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>To-Do List</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 class="title">Things I Need To Do</h1>
+        </header>
+        <main>
+            <div class="main-wrapper">
+                <article class="card-wrapper">
+                    <div class="card">
+                        <section class="card-header">
+                            <h2 class="card-heading">My List</h2>
+                            <h6 id="entry-count">Number of Entry's:<span id="count-number"></span> </h6>
+                            <button class="btn" id="clear-all">Clear All</button>
+                        </section>
+                        <section class="card-body">
+                            <div id="data">
+                                <ul id="data-list">
+
+                                </ul>
+                            </div>
+                            <!-- todo when clicking on input-area, load input text box -->
+                            <div id="input-area">
+                                <form action="" class="form" id="entry-form">
+                                    <button class="btn" id="entry-btn" type="submit"><i
+                                            class="fas fa-solid fa-plus"></i></button>
+                                    <input type="text" id="entry-value" placeholder="Enter To-Do Item">
+                                </form>
+
+                            </div>
+
+                        </section>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/e80b72746a.js" crossorigin="anonymous"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>

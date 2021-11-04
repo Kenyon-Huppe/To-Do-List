@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Gochi+Hand&family=Roboto&display=swap');
+
+:root{
+    --textShadow: 2px 2px 4px rgba(0,0,0,0.3);
+    --boxShadow : 2px 2px 24px 4px rgba(0,0,0,0.3);
+    --transitionTime: 0.3s;
+    --cardColor: rgb(235, 220, 205);
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cabin', sans-serif;
+}
+.wrapper{
+    display: flex;
+    flex-flow: column nowrap;
+    background: url(./Images/banner.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+
+
+/* * header */
+header{
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(#000000fb, rgba(255, 255, 255, 0));
+    color: #fff;
+}
+.title{
+    margin-top: 1em;
+    font-size: 2.5em;
+    text-shadow: var(--textShadow);
+}
+
+/* * main */
+.main-wrapper{
+    
+}
+
+.card-wrapper{
+    margin: 3em 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    width: 40em;
+    height: 43em;
+    border-radius: 10px;
+    background-color: var(--cardColor);
+    box-shadow: var(--boxShadow);
+}
+.card-header{
+    position: relative;
+    text-align: center;
+    margin: 1em 0 2em;
+    font-size: 1.7em;
+    text-decoration: underline;
+}
+#entry-count{
+    
+}
+#clear-all{
+    position: absolute;
+    width: 4.6em;
+    top: 0.2em;
+    right: 2em;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 7px;
+}
+
+.card-body{
+    display: flex;
+    justify-content: flex-start;
+    /* todo add margin so that left & right are even */
+    margin: 0 2em 2em 4em;
+    font-size: 1.2em;
+}
+.form{
+    display: flex;
+    flex-flow: row nowrap;
+}
+#entry-btn{
+    background: none;
+    border: none;
+    width: 1em;
+    cursor: pointer;
+    margin: 0 0.2em;
+}
+#entry-value{
+    background: transparent;
+    border: hidden;
+    border: none;
+    border-bottom: 1px solid #000;
+    font-size: 1em;
+    padding: 0 0.3em 0 0.3em;
+    height: 2em;
+}
+#data{
+    /* where user input goes */
+    font-family: 'Gochi Hand', cursive;
+}
+#data-list{
+    list-style: none;
+}
+#data-list li{
+    
+}
+.bubble{
+    /* check bubble */
+    margin-right: 0.2em;
+}
+/* todo style data & data children */
