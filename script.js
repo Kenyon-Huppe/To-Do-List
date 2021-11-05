@@ -9,43 +9,44 @@ const LOCAL_STORAGE_ARRAY_KEY = 'task.array'
 let dataList = document.getElementById('data-list');
 let editButton = document.getElementById('edit-btn');
 
-// ! may not need array?
 let list = new Array();
-
+// add
 form.addEventListener('submit', addEntry);
-
+// edit
+dataList.addEventListener('click', editEntry);
+// !delete
+// !dataList.addEventListener('click', deleteEntry);
+// clear all
 document.getElementById('clear-all').addEventListener('click', clearAll);
-
+// load
 window.addEventListener('load', loadLocalStorage);
 
-
+// * ADD ENTRY
 function addEntry(e) {
     // stops from submitting to page
     e.preventDefault();
 
-
-    // ! grabs list from local storage & stores in current variable
-    // let tempVar = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ARRAY_KEY));
-    // for (let i in tempVar) {
-    //     list.push(tempVar[i]);
-    // }
-
     list = loadLocalStorage(localStorage.getItem(LOCAL_STORAGE_ARRAY_KEY));
 
-    console.log(list + "here");
     // grabs entered value
     let entryValue = document.getElementById('entry-value').value;
 
     // checks if nothing is entered
-    if (entryValue == null || entryValue === '') {
+    if (entryValue == null || entryValue === '' || entryValue.trim().length === 0) {
+
+        // resets textbox so as to not leave any
+        document.getElementById('input-area').innerHTML = `<form action="" class="form" id="entry-form">
+        <button class="btn" id="entry-btn" type="submit"><i class="fas fa-solid fa-plus"></i></button>
+        <input type="text" id="entry-value" placeholder="Enter To-Do Item">`;
+
         return;
     }
 
     // add entryValue to end of array
-    list.push(entryValue);
+    list.push(entryValue.trim());
     console.log(list);
 
-    dataList.innerHTML += `<li id="${list.length}"><span class="bubble">&#9711</span>${list[(list.length - 1)]}<button class="edit-btn" id="-${list.length}">Edit</button></li>`;
+    dataList.innerHTML += `<li id="${list.length - 1}"><span class="bubble">&#9711</span>${list[(list.length - 1)]}<button class="edit-btn" id="e${list.length - 1}">Edit</button><button class="delete-btn" id="d${list.length - 1}">Delete</button></li>`;
 
     let output = dataList.innerHTML;
     // saves output at end of each added entry
@@ -53,62 +54,64 @@ function addEntry(e) {
 
     // resets textbox for new entry
     document.getElementById('entry-value').value = '';
-    console.log(output);
 }
 
-// todo 
-dataList.addEventListener('click', editEntry);
+// * EDIT ENTRY
+
 
 function editEntry(e) {
-    // disallows multiple entries from being selected for edit
-    console.log('this');
     list = loadLocalStorage(localStorage.getItem(LOCAL_STORAGE_ARRAY_KEY));
-    // grabs given element id
-    let selectedEntryId = '';
-    // makes sure it's correct tag
-    if (e.target.tagName.toLowerCase() === 'button') {
+
+    let selectedButtonId = null;
+    let selectedEntryId = null;
+    // edit button was selected
+    if (e.target.className.toLowerCase() === 'edit-btn') {
         selectedButtonId = e.target.getAttribute('id');
-        console.log(selectedButtonId);
 
         // allows user to click in dataList area without interuption of event listener
         dataList.removeEventListener('click', editEntry);
 
-        // the button value is negative version while entry value is positive version. To get entry, must make id positive version of itself
-        let selectedEntryId = (selectedButtonId * -1);
+        // cuts off first letter (e) to convert to entry id
+        let selectedEntryId = selectedButtonId.substring(1);
 
         let editValue = document.getElementById(selectedEntryId);
 
-        console.log(list[(selectedEntryId - 1)]);
+        console.log(list[(selectedEntryId)]);
+        console.log(selectedEntryId);
+        console.log(list);
         // changes to textbox where user can enter new edit
         editValue.innerHTML = `<form action="" class="form" id="entry-form">
-        <button class="btn" id="entry-btn" type="submit"><i
-                class="fas fa-solid fa-plus"></i></button>
+        <button class="btn" id="entry-btn" type="submit"><i class="fas fa-solid fa-plus"></i></button>
         <input type="text" id="entry-value" placeholder="Enter To-Do Item">`
-
+        // sets cursor in textbox after clicking 'edit' btn
+        document.getElementById('entry-value').focus();
+        document.getElementById('entry-value').select();
         // grabs new edit
         document.getElementById(selectedEntryId).addEventListener('submit', () => {
             e.preventDefault();
+            console.log('editValue part ' + selectedEntryId);
             // grabs entered value
             let entryValue = document.getElementById('entry-value').value;
             // if enmpy value is submitted
-            if (entryValue == null || entryValue === '') {
+            if (entryValue == null || entryValue === '' || entryValue.trim().length === 0) {
                 // turns back on event listener
                 dataList.addEventListener('click', editEntry);
                 // reloads entry item
-                editValue.innerHTML = `<li id="${selectedEntryId}"><span class="bubble">&#9711</span>${list[(selectedEntryId - 1)]}<button class="edit-btn" id="-${list.length}">Edit</button></li>`;
+                editValue.innerHTML = `<li id="${selectedEntryId}"><span class="bubble">&#9711</span>${list[selectedEntryId]}<button class="edit-btn" id="e${selectedEntryId}">Edit</button><button class="delete-btn" id="d${selectedEntryId}">Delete</button></li>`;
                 return;
             }
 
-            // todo automatically have cursor in textbox
+            // todo account for user entering spaces
 
-            // todo look into setting html to a variable
 
-            list[(selectedEntryId - 1)] = entryValue;
+            list[(selectedEntryId)] = entryValue;
             console.log('select' + selectedEntryId);
             let output = '';
 
+            selectedEntryId = null;
+
             for (let i in list) {
-                output += `<li id="${list[i]}"><span class="bubble">&#9711</span>${list[i]}<button class="edit-btn" id="-${list[i]}">Edit</button></li>`;
+                output += `<li id="${i}"><span class="bubble">&#9711</span>${list[i]}<button class="edit-btn" id="e${i}">Edit</button><button class="delete-btn" id="d${i}">Delete</button></li>`;
                 // if(i === (selectedEntryId - 1){}
                 console.log(list[i]);
             }
@@ -122,8 +125,13 @@ function editEntry(e) {
             // re-activates event listener
             dataList.addEventListener('click', editEntry);
         })
+    } else if (e.target.className.toLowerCase() === 'delete-btn') {
+        // delete btn was selected
+        selectedButtonId = e.target.getAttribute('id');
+        deleteEntry(selectedButtonId);
     } else {
-        console.log('it is because of that');
+        // ? cross off
+        return;
     }
 
 
@@ -140,11 +148,51 @@ function editEntry(e) {
     // todo use id to select numbers
 }
 
+// * DELETE ENTRY
 // todo 
-function deleteEntry() {
-    // todo use removeItem() to remove from local storage
-}
+function deleteEntry(selectedButtonId) {
+    console.log('delete running...');
+    list = loadLocalStorage(localStorage.getItem(LOCAL_STORAGE_ARRAY_KEY));
 
+    // makes sure it's correct element
+
+    // selectedButtonId = e.target.getAttribute('id');
+
+    // cuts off first letter (d) to convert to entry id
+    let selectedEntryId = selectedButtonId.substring(1);
+
+    console.log('select id ' + selectedEntryId);
+    let output = '';
+    // let currentIndex = 0;
+    // let newArray = new Array();
+    // for (let i = 0; i < list.length; i++) {
+    //     if (i === selectedEntryId) {
+    //         i++;
+    //         continue;
+    //         console.log('inside' + i + 'current' + currentIndex + ' ' + newArray);
+    //     }
+    //     newArray[currentIndex] = list[i];
+    //     currentIndex++;
+    //     console.log(i + ' ' + newArray);
+    // }
+    list.splice(selectedEntryId, 1);
+    console.log(list);
+
+    // console.log('new array: ' + newArray);
+    for (let i in list) {
+        output += `<li id="${i}"><span class="bubble">&#9711</span>${list[i]}<button class="edit-btn" id="e${i}">Edit</button><button class="delete-btn" id="d${i}">Delete</button></li>`;
+        console.log(list[i]);
+    }
+    save(output, list);
+    loadLocalStorage();
+
+
+    // dataList.innerHTML = output;
+
+}
+// todo use removeItem() to remove from local storage
+
+// * CLEAR ALL
 // clears all to-do items
 function clearAll(output, list) {
 
@@ -155,6 +203,7 @@ function clearAll(output, list) {
     window.location.reload(true);
 }
 
+// * SAVE
 // saves to local storage
 function save(output, list) {
     // saves dataList HTML info
@@ -165,6 +214,8 @@ function save(output, list) {
 
     localStorage.setItem(LOCAL_STORAGE_ARRAY_KEY, JSON.stringify(list));
 }
+
+// * LOAD LOCAL STORAGE
 // retrieves stored data & displays to web page
 function loadLocalStorage() {
     dataList.innerHTML = localStorage.getItem(LOCAL_STORAGE_LIST_KEY);
