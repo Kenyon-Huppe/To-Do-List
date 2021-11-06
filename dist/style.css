@@ -22,7 +22,6 @@
     height: 100vh;
 }
 
-
 /* * header */
 header{
     display: flex;
@@ -40,9 +39,9 @@ header{
 .main-wrapper{
     
 }
-
 .card-wrapper{
-    margin: 3em 0;
+    padding: 2.2em 0 0;
+
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -58,7 +57,7 @@ header{
 .card-header{
     position: relative;
     text-align: center;
-    margin: 1em 0 2em;
+    margin: 1em 0 1em;
     font-size: 1.7em;
     text-decoration: underline;
 }
@@ -79,8 +78,8 @@ header{
 
 .card-body{
     display: flex;
-    justify-content: flex-start;
-    /* todo add margin so that left & right are even */
+    flex-flow: column nowrap;
+    align-items: center;
     margin: 0 2em 2em 4em;
     font-size: 1.2em;
 }
@@ -112,10 +111,48 @@ header{
     list-style: none;
 }
 #data-list li{
-    
+    font-family: 'Gochi Hand';
 }
 .bubble{
     /* check bubble */
     margin-right: 0.2em;
+    user-select: none;
 }
-/* todo style data & data children */
+#entry-value{
+    font-family: 'Gochi Hand';
+}
+.edit-btn{
+    background: #ffa500;
+    border: none;
+    font-size: 1.3em;
+    margin: 0.4em;
+    border-radius: 8px;
+    width: 2.3em;
+    height: 1.4em;
+    cursor: pointer;
+}
+.edit-btn:hover, .edit-btn:focus{
+    background: #cc8e1c;
+}
+.delete-btn{
+    background: #ff0000;
+    border: none;
+    font-size: 1.3em;
+    border-radius: 8px;
+    width: 3.4em;
+    height: 1.4em;
+    cursor: pointer;
+}
+.delete-btn:hover, .delete-btn:focus{
+    background: #ce1a1a;
+}
+#entry-btn{
+    background: #29cc29;
+    width: 2em;
+    height: 2em;
+    margin: 0.5em 0;
+    color: #fff;
+}
+#entry-btn:hover, #entry-btn:focus{
+    background-color: #309230;
+}
